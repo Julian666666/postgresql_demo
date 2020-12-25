@@ -1,0 +1,36 @@
+## \u670D\u52A1\u914D\u7F6E
+server:
+  # SpringBoot\u670D\u52A1\u7AEF\u53E3\u914D\u7F6E
+  port: 8000
+  # SpringBoot\u8BBE\u7F6E\u54CD\u5E94\u538B\u7F29gzip
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: application/javascript,text/css,application/json,application/gltf,application/xml,text/html,text/xml,text/plain
+  servlet:
+    # \u5E94\u7528\u7684\u8BBF\u95EE\u8DEF\u5F84
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8 # tomcat\u7684URI\u7F16\u7801
+    threads:
+      max: 300
+      min-spare: 30
+
+
+## Spring
+spring:
+  # thymeleaf
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    servlet.content-type: text/html
+    cache: false
+
+  # postgresql
+  datasource:
+    url: jdbc:postgresql://172.17.30.255:5432/land_house_dev
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
