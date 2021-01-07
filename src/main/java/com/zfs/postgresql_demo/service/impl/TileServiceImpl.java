@@ -5,14 +5,14 @@ import com.zfs.postgresql_demo.bean.Tile;
 import com.zfs.postgresql_demo.bean.TileBox;
 import com.zfs.postgresql_demo.mapper.TileMapper;
 import com.zfs.postgresql_demo.service.TileService;
-import com.zfs.postgresql_demo.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
-@Service("mapService")
+@Service
 public class TileServiceImpl implements TileService {
 
     /**
@@ -35,7 +35,14 @@ public class TileServiceImpl implements TileService {
     @Override
     public Tile queryTileByPoints(int x, int y, int zoom) {
         TileBox tileBox = new BoundBox().tile2boundBox(x,y,zoom);
-        return tileMapper.queryTileByPoints(tileBox.getXmin(),tileBox.getYmin(),tileBox.getXmax(),tileBox.getYmax());
+        Tile tile = tileMapper.queryTileByPoints(tileBox.getXmin(), tileBox.getYmin(), tileBox.getXmax(), tileBox.getYmax());
+        return tile;
+    }
+
+    @Override
+    public Tile queryTileByPolygon(int x, int y, int zoom) {
+        TileBox tileBox = new BoundBox().tile2boundBox(x,y,zoom);
+        return tileMapper.queryTileByPolygon(tileBox.getXmin(),tileBox.getYmin(),tileBox.getXmax(),tileBox.getYmax());
     }
 
     @Override
@@ -58,7 +65,8 @@ public class TileServiceImpl implements TileService {
      * @return
      * @throws IOException
      */
-    public byte[] getTiles(@PathVariable String layer, @PathVariable int x, @PathVariable int y, @PathVariable int z) throws IOException {
+    @Override
+    public byte[] getTiles(@PathVariable String layer, @PathVariable int x, @PathVariable int y, @PathVariable int z) {
         String filePath = layer + "/" + z + "/" + x + "/" + y + ".mvt";
         File file = new File(MAP_PATH + filePath);
 
@@ -70,6 +78,8 @@ public class TileServiceImpl implements TileService {
                 tile = queryTileByPoints(x, y, z);
             } else if (layer.equals("roads")) {
                 tile = queryTileByRoads(x, y, z);
+            } else if (layer.equals("polygon")) {
+                tile = queryTileByPolygon(x, y, z);
             }
 //            tile = tileService.queryTile(layer, x, y, z);
             tiles = tile.getTiles();

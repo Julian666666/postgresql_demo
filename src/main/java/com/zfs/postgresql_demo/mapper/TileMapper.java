@@ -20,7 +20,7 @@ public interface TileMapper {
             "SELECT\n" +
             "\tst_asmvtgeom ( T.geom, st_makeenvelope (#{xmin,jdbcType=NUMERIC}, #{ymin,jdbcType=NUMERIC}, #{xmax,jdbcType=NUMERIC},#{ymax,jdbcType=NUMERIC}, 4326 ), 4096, 0, TRUE ) AS geom \n" +
             "FROM\n" +
-            "\txlc_point T \n" +
+            "\tlzc_point T \n" +
             "\t) AS tile \n" +
             "WHERE\n" +
             "\ttile.geom IS NOT NULL;")
@@ -29,16 +29,30 @@ public interface TileMapper {
     })
     Tile queryTileByPoints(double xmin, double ymin, double xmax, double ymax);
 
-
+    @Select("SELECT\n" +
+            "\tST_AsMVT ( tile, 'polygon' ) polygon \n" +
+            "FROM\n" +
+            "\t(\n" +
+            "SELECT\n" +
+            "\tst_asmvtgeom ( T.geom, st_makeenvelope (#{xmin,jdbcType=NUMERIC}, #{ymin,jdbcType=NUMERIC}, #{xmax,jdbcType=NUMERIC},#{ymax,jdbcType=NUMERIC}, 4326 ), 4096, 0, TRUE ) AS geom \n" +
+            "FROM\n" +
+            "\txlc_polygon T \n" +
+            "\t) AS tile \n" +
+            "WHERE\n" +
+            "\ttile.geom IS NOT NULL;")
+    @Results(value = {
+            @Result(property = "tiles",column = "polygon",jdbcType = JdbcType.BINARY)
+    })
+    Tile queryTileByPolygon(double xmin, double ymin, double xmax, double ymax);
 
     @Select("SELECT\n" +
             "\tST_AsMVT ( tile, 'roads' ) roads \n" +
             "FROM\n" +
             "\t(\n" +
             "SELECT\n" +
-            "\tst_asmvtgeom ( T.geom_data, st_makeenvelope (#{xmin,jdbcType=NUMERIC}, #{ymin,jdbcType=NUMERIC}, #{xmax,jdbcType=NUMERIC},#{ymax,jdbcType=NUMERIC}, 4326 ), 4096, 0, TRUE ) AS geom \n" +
+            "\tst_asmvtgeom ( T.geom, st_makeenvelope (#{xmin,jdbcType=NUMERIC}, #{ymin,jdbcType=NUMERIC}, #{xmax,jdbcType=NUMERIC},#{ymax,jdbcType=NUMERIC}, 4326 ), 4096, 0, TRUE ) AS geom \n" +
             "FROM\n" +
-            "\troad_shape_data T \n" +
+            "\tgis_osm_roads_free_1 T \n" +
             "\t) AS tile \n" +
             "WHERE\n" +
             "\ttile.geom IS NOT NULL;")

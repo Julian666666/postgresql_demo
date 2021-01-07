@@ -1,14 +1,10 @@
 package com.zfs.postgresql_demo.bean;
 
-public class Tile {
+import lombok.Data;
+
+import java.io.Serializable;
+
+@Data
+public class Tile implements Serializable {
     private byte [] tiles;
-
-    public byte[] getTiles() {
-        return tiles;
-    }
-
-    public void setTiles(byte[] tiles) {
-        this.tiles = tiles;
-    }
-
 }
