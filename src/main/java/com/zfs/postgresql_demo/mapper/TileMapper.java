@@ -36,7 +36,7 @@ public interface TileMapper {
             "SELECT\n" +
             "\tst_asmvtgeom ( T.geom, st_makeenvelope (#{xmin,jdbcType=NUMERIC}, #{ymin,jdbcType=NUMERIC}, #{xmax,jdbcType=NUMERIC},#{ymax,jdbcType=NUMERIC}, 4326 ), 4096, 0, TRUE ) AS geom \n" +
             "FROM\n" +
-            "\txlc_polygon T \n" +
+            "\tlzc_polygon T \n" +
             "\t) AS tile \n" +
             "WHERE\n" +
             "\ttile.geom IS NOT NULL;")
