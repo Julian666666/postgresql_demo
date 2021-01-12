@@ -118,11 +118,12 @@ const map = L.map("map", {
     zoom
 );
 
-L.control.layers(baseLayers, null).addTo(map);
+// L.control.layers(baseLayers, null).addTo(map);
 // L.control.zoom({
 //     zoomInTitle: '放大',
 //     zoomOutTitle: '缩小'
 // }).addTo(map);
+
 
 // L.tileLayer(
 //     url +
@@ -207,12 +208,25 @@ var mapboxVectorTileOptions = {
 var polygonUrl = "http://localhost:8000/getTiles/polygon/{z}/{x}/{y}";
 var polygonLayer = L.vectorGrid.protobuf(polygonUrl , mapboxVectorTileOptions).addTo(map);
 
+var marker = L.marker([32.671216, 116.818249]).addTo(map);
+var polygon = L.polygon([
+
+    [32.670936, 116.817831],
+
+    [32.670466, 116.817434],
+
+    [32.670575, 116.818571]
+
+]).addTo(map);
+polygon.bindPopup("I am a polygon.");
+var popup = L.popup();
 map.on('click', function(e) {
     var content = '你临幸了这个点：<br>';
     content += e.latlng.toString();
-    // mypop.setLatLng(e.latlng)
-    //     .setContent(content)
-    //     .openOn(m);
+    console.log(content);
+    popup.setLatLng(e.latlng)
+        .setContent(content)
+        .openOn(map);
 });
 // const pbfUrl = "http://172.17.11.249:8080/geoserver/gwc/service/tms/1.0.0/test%3Axlc_polygon_test@EPSG%3A4326@pbf/{z}/{x}/{y}.pbf";
 // var vectorTileOptions = {
