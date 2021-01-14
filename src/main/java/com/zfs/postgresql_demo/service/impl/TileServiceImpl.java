@@ -35,7 +35,7 @@ public class TileServiceImpl implements TileService {
     @Override
     public Tile queryTileByPoints(int x, int y, int zoom) {
         TileBox tileBox = new BoundBox().tile2boundBox(x,y,zoom);
-        Tile tile = tileMapper.queryTileByPoints(tileBox.getXmin(), tileBox.getYmin(), tileBox.getXmax(), tileBox.getYmax());
+        Tile tile = tileMapper.queryTileByPoints(tileBox);
         return tile;
     }
 

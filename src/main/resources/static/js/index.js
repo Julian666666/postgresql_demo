@@ -118,30 +118,6 @@ const map = L.map("map", {
     zoom
 );
 
-// L.control.layers(baseLayers, null).addTo(map);
-// L.control.zoom({
-//     zoomInTitle: '放大',
-//     zoomOutTitle: '缩小'
-// }).addTo(map);
-
-
-// L.tileLayer(
-//     url +
-//     "vec_c/wmts?layer=vec&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=0b018552994f71a9467d24461a8f8238", {
-//         maxZoom: 20,
-//         tileSize: 256,
-//         zoomOffset: 1,
-//     }
-// ).addTo(map);
-// L.tileLayer(
-//     url +
-//     "cva_c/wmts?layer=cva&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=0b018552994f71a9467d24461a8f8238", {
-//         maxZoom: 20,
-//         tileSize: 256,
-//         zoomOffset: 1,
-//     }
-// ).addTo(map);
-
 var vectorTileStyling = {
     //layer样式,line没有fill属性
     gj:{//layername
@@ -203,10 +179,40 @@ var mapboxVectorTileOptions = {
     rendererFactory: L.canvas.tile,
     vectorTileLayerStyles: vectorTileStyling
 };
-// var mapboxPbfLayer = L.vectorGrid.protobuf(mapboxUrl, mapboxVectorTileOptions).addTo(map);
+var pointLayer = L.vectorGrid.protobuf(mapboxUrl, mapboxVectorTileOptions);
 
 var polygonUrl = "http://localhost:8000/getTiles/polygon/{z}/{x}/{y}";
-var polygonLayer = L.vectorGrid.protobuf(polygonUrl , mapboxVectorTileOptions).addTo(map);
+var polygonLayer = L.vectorGrid.protobuf(polygonUrl , mapboxVectorTileOptions);
+
+var overLayers = {
+    "lzc_polygon": polygonLayer,
+    "lzc_point": pointLayer
+};
+
+L.control.layers(baseLayers, overLayers).addTo(map);
+L.control.zoom({
+    zoomInTitle: '放大',
+    zoomOutTitle: '缩小'
+}).addTo(map);
+
+
+// L.tileLayer(
+//     url +
+//     "vec_c/wmts?layer=vec&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=0b018552994f71a9467d24461a8f8238", {
+//         maxZoom: 20,
+//         tileSize: 256,
+//         zoomOffset: 1,
+//     }
+// ).addTo(map);
+// L.tileLayer(
+//     url +
+//     "cva_c/wmts?layer=cva&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=0b018552994f71a9467d24461a8f8238", {
+//         maxZoom: 20,
+//         tileSize: 256,
+//         zoomOffset: 1,
+//     }
+// ).addTo(map);
+
 
 var marker = L.marker([32.671216, 116.818249]).addTo(map);
 var polygon = L.polygon([
