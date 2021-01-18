@@ -174,7 +174,7 @@ var vectorTileStyling = {
 };
 
 // var mapboxUrl = "http://localhost:8000/getTiles/roads/{z}/{x}/{y}";
-var mapboxUrl = "http://localhost:8000/tiles/points/{z}/{x}/{y}";
+var mapboxUrl = "http://localhost:8000/getTiles/points/{z}/{x}/{y}";
 var mapboxVectorTileOptions = {
     rendererFactory: L.canvas.tile,
     vectorTileLayerStyles: vectorTileStyling
@@ -213,8 +213,9 @@ L.control.zoom({
 //     }
 // ).addTo(map);
 
-
+// marker
 var marker = L.marker([32.671216, 116.818249]).addTo(map);
+// 多边形
 var polygon = L.polygon([
 
     [32.670936, 116.817831],

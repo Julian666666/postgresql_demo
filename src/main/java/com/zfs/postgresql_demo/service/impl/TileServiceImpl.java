@@ -5,10 +5,10 @@ import com.zfs.postgresql_demo.bean.Tile;
 import com.zfs.postgresql_demo.bean.TileBox;
 import com.zfs.postgresql_demo.mapper.TileMapper;
 import com.zfs.postgresql_demo.service.TileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 
@@ -29,8 +29,8 @@ public class TileServiceImpl implements TileService {
      */
     private static final String DB_TABLE = "road_shape_data";
 
-    @Autowired
-    TileMapper tileMapper;
+    @Resource
+    private TileMapper tileMapper;
 
     @Override
     public Tile queryTileByPoints(int x, int y, int zoom) {
@@ -42,7 +42,7 @@ public class TileServiceImpl implements TileService {
     @Override
     public Tile queryTileByPolygon(int x, int y, int zoom) {
         TileBox tileBox = new BoundBox().tile2boundBox(x,y,zoom);
-        return tileMapper.queryTileByPolygon(tileBox.getXmin(),tileBox.getYmin(),tileBox.getXmax(),tileBox.getYmax());
+        return tileMapper.queryTileByPolygon(tileBox);
     }
 
     @Override
