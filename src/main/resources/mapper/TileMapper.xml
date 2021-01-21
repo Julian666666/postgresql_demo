@@ -4,7 +4,6 @@
   <!--<resultMap id="BaseResultMap" type="Tile">-->
     <!--<result column="tiles" jdbcType="BINARY" property="tiles"/>-->
   <!--</resultMap>-->
-
   <select id="queryTileByPoints" resultType="tile" parameterType="TileBox">
     SELECT
     ST_AsMVT (tile, 'points') tiles
@@ -24,7 +23,7 @@
         tile.geom IS NOT NULL;
   </select>
 
-    <select id="queryTileByPolygon" resultType="tile" parameterType="TileBox">
+  <select id="queryTileByPolygon" resultType="tile" parameterType="TileBox">
     SELECT
     ST_AsMVT (tile, 'polygon') tiles
     FROM
@@ -41,6 +40,13 @@
         ) AS tile
         WHERE
         tile.geom IS NOT NULL;
+  </select>
+
+  <select id="listLzcPolygon" resultMap="com.zfs.postgresql_demo.mapper.LzcPolygonMapper.BaseResultMap" parameterType="tileBox">
+    SELECT <include refid="com.zfs.postgresql_demo.mapper.LzcPolygonMapper.Base_Column_List" />
+    FROM lzc_polygon
+    WHERE geom &amp;&amp; ST_SetSRID(ST_MakeBox2D(ST_Point(#{xmin},#{ymin}),
+    ST_Point(#{xmax} ,#{ymax})),4326)
   </select>
 </mapper>
 

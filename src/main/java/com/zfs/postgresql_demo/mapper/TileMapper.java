@@ -2,7 +2,10 @@ package com.zfs.postgresql_demo.mapper;
 
 import com.zfs.postgresql_demo.bean.Tile;
 import com.zfs.postgresql_demo.bean.TileBox;
+import com.zfs.postgresql_demo.pojo.LzcPolygon;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface TileMapper {
@@ -37,6 +40,8 @@ public interface TileMapper {
 //            @Result(property = "tiles",column = "polygon",jdbcType = JdbcType.BINARY)
 //    })
     Tile queryTileByPolygon(TileBox tileBox);
+
+    List<LzcPolygon> listLzcPolygon(TileBox tileBox);
 
 //    @Select("SELECT\n" +
 //            "\tST_AsMVT ( tile, 'roads' ) roads \n" +

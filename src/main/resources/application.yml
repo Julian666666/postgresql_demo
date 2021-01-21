@@ -71,3 +71,5 @@ mybatis:
   configuration:
     # 在控制台打印sql
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 使用驼峰命名法转换字段
+    mapUnderscoreToCamelCase: true

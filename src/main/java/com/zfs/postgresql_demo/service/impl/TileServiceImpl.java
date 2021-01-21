@@ -4,6 +4,7 @@ import com.zfs.postgresql_demo.bean.BoundBox;
 import com.zfs.postgresql_demo.bean.Tile;
 import com.zfs.postgresql_demo.bean.TileBox;
 import com.zfs.postgresql_demo.mapper.TileMapper;
+import com.zfs.postgresql_demo.pojo.LzcPolygon;
 import com.zfs.postgresql_demo.service.TileService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class TileServiceImpl implements TileService {
@@ -120,4 +122,9 @@ public class TileServiceImpl implements TileService {
         return tiles;
     }
 
+    @Override
+    public List<LzcPolygon> listLzcPolygon(int x, int y, int zoom) {
+        TileBox tileBox = new BoundBox().tile2boundBox(x,y,zoom);
+        return tileMapper.listLzcPolygon(tileBox);
+    }
 }

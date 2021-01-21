@@ -1,5 +1,6 @@
 package com.zfs.postgresql_demo.controller;
 
+import com.zfs.postgresql_demo.pojo.LzcPolygon;
 import com.zfs.postgresql_demo.service.TileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 @Controller
 public class MapController {
-
 
     @Autowired
     private TileService tileService;
@@ -44,7 +45,7 @@ public class MapController {
 
     @ResponseBody
     @RequestMapping(value = "/getTiles/{layer}/{z}/{x}/{y}", produces = "application/x-protobuf")
-    public byte[] getVectorTile(HttpServletResponse response, @PathVariable String layer, @PathVariable int x, @PathVariable int y, @PathVariable int z) throws IOException {
+    public byte[] getVectorTile(HttpServletResponse response, @PathVariable String layer, @PathVariable int x, @PathVariable int y, @PathVariable int z) {
         //添加请求头
         response.addHeader("Content-Type", "application/x-protobuf");
 
@@ -52,4 +53,9 @@ public class MapController {
         return tiles;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/listLzcPolygon/{z}/{x}/{y}")
+    public List<LzcPolygon> listLzcPolygon(@PathVariable int x, @PathVariable int y, @PathVariable int z) {
+        return tileService.listLzcPolygon(x, y, z);
+    }
 }
