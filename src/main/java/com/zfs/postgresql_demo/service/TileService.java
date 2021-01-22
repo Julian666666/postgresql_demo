@@ -18,5 +18,5 @@ public interface TileService {
 
     byte[] getTiles(@PathVariable String layer, @PathVariable int x, @PathVariable int y, @PathVariable int z);
 
-    List<LzcPolygon> listLzcPolygon(int x, int y, int zoom);
+    List<LzcPolygon> listLzcPolygon(double lat, double lon, int zoom);
 }

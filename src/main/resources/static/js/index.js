@@ -234,10 +234,18 @@ map.on('click', function(e) {
     popup.setLatLng(e.latlng)
         .setContent(content)
         .openOn(map);
-    console.log(e);
-    // $.ajax({
-    //     url: "/listLzcPolygon/"
-    // })
+    $.ajax({
+        url: "/listLzcPolygon",
+        type: "get",
+        data: {
+            lat: e.latlng.lat,
+            lon: e.latlng.lng,
+            zoom: map.getZoom()
+        },
+        success: function (value) {
+            console.log(value);
+        }
+    });
 });
 // const pbfUrl = "http://172.17.11.249:8080/geoserver/gwc/service/tms/1.0.0/test%3Axlc_polygon_test@EPSG%3A4326@pbf/{z}/{x}/{y}.pbf";
 // var vectorTileOptions = {

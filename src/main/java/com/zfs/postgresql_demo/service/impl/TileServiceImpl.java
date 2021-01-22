@@ -123,8 +123,8 @@ public class TileServiceImpl implements TileService {
     }
 
     @Override
-    public List<LzcPolygon> listLzcPolygon(int x, int y, int zoom) {
-        TileBox tileBox = new BoundBox().tile2boundBox(x,y,zoom);
+    public List<LzcPolygon> listLzcPolygon(double lat, double lon, int zoom) {
+        TileBox tileBox = new BoundBox().getTileNumber(lat, lon, zoom);
         return tileMapper.listLzcPolygon(tileBox);
     }
 }

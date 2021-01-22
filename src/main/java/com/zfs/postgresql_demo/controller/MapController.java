@@ -54,8 +54,8 @@ public class MapController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/listLzcPolygon/{z}/{x}/{y}")
-    public List<LzcPolygon> listLzcPolygon(@PathVariable int x, @PathVariable int y, @PathVariable int z) {
-        return tileService.listLzcPolygon(x, y, z);
+    @RequestMapping(value = "/listLzcPolygon")
+    public List<LzcPolygon> listLzcPolygon(double lat, double lon, int zoom) {
+        return tileService.listLzcPolygon(lat, lon, zoom);
     }
 }
