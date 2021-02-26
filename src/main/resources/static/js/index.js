@@ -11,46 +11,46 @@
  * 智图地图内容
  */
 var normalm1 = L.tileLayer.chinaProvider('Geoq.Normal.Map', {
-    maxZoom: 18,
+    maxZoom: 25,
     minZoom: 5
 });
 var normalm2 = L.tileLayer.chinaProvider('Geoq.Normal.Color', {
-    maxZoom: 18,
+    maxZoom: 25,
     minZoom: 5
 });
 var normalm3 = L.tileLayer.chinaProvider('Geoq.Normal.PurplishBlue', {
-    maxZoom: 18,
+    maxZoom: 25,
     minZoom: 5
 });
 var normalm4 = L.tileLayer.chinaProvider('Geoq.Normal.Gray', {
-    maxZoom: 18,
+    maxZoom: 25,
     minZoom: 5
 });
 var normalm5 = L.tileLayer.chinaProvider('Geoq.Normal.Warm', {
-    maxZoom: 18,
+    maxZoom: 25,
     minZoom: 5
 });
 var normalm6 = L.tileLayer.chinaProvider('Geoq.Normal.Cold', {
-    maxZoom: 18,
+    maxZoom: 25,
     minZoom: 5
 });
 /**
  * 天地图内容
  */
 var normalm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
-        maxZoom: 18,
+        maxZoom: 25,
         minZoom: 5
     }),
     normala = L.tileLayer.chinaProvider('TianDiTu.Normal.Annotion', {
-        maxZoom: 18,
+        maxZoom: 25,
         minZoom: 5
     }),
     imgm = L.tileLayer.chinaProvider('TianDiTu.Satellite.Map', {
-        maxZoom: 18,
+        maxZoom: 25,
         minZoom: 5
     }),
     imga = L.tileLayer.chinaProvider('TianDiTu.Satellite.Annotion', {
-        maxZoom: 18,
+        maxZoom: 25,
         minZoom: 5
     });
 
@@ -60,26 +60,26 @@ var normal = L.layerGroup([normalm, normala]),
  * 谷歌
  */
 var normalMap = L.tileLayer.chinaProvider('Google.Normal.Map', {
-        maxZoom: 18,
+        maxZoom: 25,
         minZoom: 5
     }),
     satelliteMap = L.tileLayer.chinaProvider('Google.Satellite.Map', {
-        maxZoom: 18,
+        maxZoom: 25,
         minZoom: 5
     });
 /**
  * 高德地图
  */
 var Gaode = L.tileLayer.chinaProvider('GaoDe.Normal.Map', {
-    maxZoom: 18,
+    maxZoom: 25,
     minZoom: 5
 });
 var Gaodimgem = L.tileLayer.chinaProvider('GaoDe.Satellite.Map', {
-    maxZoom: 18,
+    maxZoom: 25,
     minZoom: 5
 });
 var Gaodimga = L.tileLayer.chinaProvider('GaoDe.Satellite.Annotion', {
-    maxZoom: 18,
+    maxZoom: 25,
     minZoom: 5
 });
 var Gaodimage = L.layerGroup([Gaodimgem, Gaodimga]);
@@ -106,12 +106,12 @@ var baseLayers = {
 };
 
 const center = [32.671216, 116.818249],
-    zoom = 15,
+    zoom = 30,
     url = "https://t0.tianditu.gov.cn/";
 
 const map = L.map("map", {
     layers: [openStreeMap],
-    // zoomControl: false
+    zoomControl: false
     // crs: L.CRS.EPSG4326
 }).setView(
     center,
@@ -191,8 +191,8 @@ var overLayers = {
 
 L.control.layers(baseLayers, overLayers).addTo(map);
 L.control.zoom({
-    zoomInTitle: '放大',
-    zoomOutTitle: '缩小'
+    // zoomInTitle: '放大',
+    // zoomOutTitle: '缩小'
 }).addTo(map);
 
 
@@ -214,18 +214,18 @@ L.control.zoom({
 // ).addTo(map);
 
 // marker
-var marker = L.marker([32.671216, 116.818249]).addTo(map);
+// var marker = L.marker([32.671216, 116.818249]).addTo(map);
 // 多边形
-var polygon = L.polygon([
-
-    [32.670936, 116.817831],
-
-    [32.670466, 116.817434],
-
-    [32.670575, 116.818571]
-
-]).addTo(map);
-polygon.bindPopup("I am a polygon.");
+// var polygon = L.polygon([
+//
+//     [32.670936, 116.817831],
+//
+//     [32.670466, 116.817434],
+//
+//     [32.670575, 116.818571]
+//
+// ]).addTo(map);
+// polygon.bindPopup("I am a polygon.");
 var popup = L.popup();
 map.on('click', function(e) {
     var content = '你临幸了这个点：<br>';
@@ -234,18 +234,18 @@ map.on('click', function(e) {
     popup.setLatLng(e.latlng)
         .setContent(content)
         .openOn(map);
-    $.ajax({
-        url: "/listLzcPolygon",
-        type: "get",
-        data: {
-            lat: e.latlng.lat,
-            lon: e.latlng.lng,
-            zoom: map.getZoom()
-        },
-        success: function (value) {
-            console.log(value);
-        }
-    });
+    // $.ajax({
+    //     url: "/listLzcPolygon",
+    //     type: "get",
+    //     data: {
+    //         lat: e.latlng.lat,
+    //         lon: e.latlng.lng,
+    //         zoom: map.getZoom()
+    //     },
+    //     success: function (value) {
+    //         console.log(value);
+    //     }
+    // });
 });
 // const pbfUrl = "http://172.17.11.249:8080/geoserver/gwc/service/tms/1.0.0/test%3Axlc_polygon_test@EPSG%3A4326@pbf/{z}/{x}/{y}.pbf";
 // var vectorTileOptions = {
@@ -265,3 +265,15 @@ map.on('click', function(e) {
 //     }
 // };
 // var vectorTile = new L.vectorGrid.protobuf(pbfUrl, vectorTileOptions).addTo(map);
+
+var printer = L.easyPrint({
+    tileLayer: polygonLayer,
+    sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+    filename: 'myMap',
+    exportOnly: true,
+    hideControlContainer: true
+}).addTo(map);
+
+function manualPrint () {
+    printer.printMap('CurrentSize', 'MyManualPrint')
+}
