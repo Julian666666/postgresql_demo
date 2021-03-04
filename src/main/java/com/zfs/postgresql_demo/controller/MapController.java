@@ -58,4 +58,10 @@ public class MapController {
     public List<LzcPolygon> listLzcPolygon(double lat, double lon, int zoom) {
         return tileService.listLzcPolygon(lat, lon, zoom);
     }
+
+    @ResponseBody
+    @RequestMapping("/print")
+    public void print(double lat, double lon, int zoom) {
+
+    }
 }

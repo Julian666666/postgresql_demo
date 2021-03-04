@@ -234,6 +234,7 @@ map.on('click', function(e) {
     popup.setLatLng(e.latlng)
         .setContent(content)
         .openOn(map);
+    // 圆形检索
     // $.ajax({
     //     url: "/listLzcPolygon",
     //     type: "get",
@@ -266,14 +267,33 @@ map.on('click', function(e) {
 // };
 // var vectorTile = new L.vectorGrid.protobuf(pbfUrl, vectorTileOptions).addTo(map);
 
-var printer = L.easyPrint({
-    tileLayer: polygonLayer,
-    sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
-    filename: 'myMap',
-    exportOnly: true,
-    hideControlContainer: true
-}).addTo(map);
+// var printer = L.easyPrint({
+//     tileLayer: polygonLayer,
+//     sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+//     filename: 'myMap',
+//     exportOnly: true,
+//     hideControlContainer: false
+// }).addTo(map);
+//
+// function manualPrint () {
+//     printer.printMap('CurrentSize', 'MyManualPrint')
+// }
+let printProvider = L.print.provider({
+    capabilities: printConfig,
+    // url: 'http://path/to/mapfish/print',
+    // url: 'http://localhost:8000/print',
+    method: 'GET',
+    dpi: 254,
+    outputFormat: 'pdf',
+    customParams: {
+        mapTitle: 'Print Test',
+        comment: 'Testing Leaflet printing'
+    }
+});
 
-function manualPrint () {
-    printer.printMap('CurrentSize', 'MyManualPrint')
-}
+// Create a print control with the configured provider and add to the map
+let printControl = L.control.print({
+    provider: printProvider
+});
+
+map.addControl(printControl);
