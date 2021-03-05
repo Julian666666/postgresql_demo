@@ -267,33 +267,57 @@ map.on('click', function(e) {
 // };
 // var vectorTile = new L.vectorGrid.protobuf(pbfUrl, vectorTileOptions).addTo(map);
 
-// var printer = L.easyPrint({
-//     tileLayer: polygonLayer,
-//     sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
-//     filename: 'myMap',
-//     exportOnly: true,
-//     hideControlContainer: false
-// }).addTo(map);
+// easyPrint
+var printer = L.easyPrint({
+    tileLayer: polygonLayer,
+    sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+    filename: 'myMap',
+    exportOnly: true,
+    hideControlContainer: false
+}).addTo(map);
+
+function manualPrint () {
+    console.log(printer);
+    printer.printMap('CurrentSize', 'MyManualPrint');
+}
+
+// print
+// let printProvider = L.print.provider({
+//     // capabilities: printConfig,
+//     url: 'http://path/to/mapfish/print',
+//     // url: 'http://localhost:8000/print',
+//     method: 'GET',
+//     dpi: 254,
+//     outputFormat: 'pdf',
+//     customParams: {
+//         mapTitle: 'Print Test',
+//         comment: 'Testing Leaflet printing'
+//     }
+// });
 //
-// function manualPrint () {
-//     printer.printMap('CurrentSize', 'MyManualPrint')
-// }
-let printProvider = L.print.provider({
-    capabilities: printConfig,
-    // url: 'http://path/to/mapfish/print',
-    // url: 'http://localhost:8000/print',
-    method: 'GET',
-    dpi: 254,
-    outputFormat: 'pdf',
-    customParams: {
-        mapTitle: 'Print Test',
-        comment: 'Testing Leaflet printing'
-    }
-});
+// // Create a print control with the configured provider and add to the map
+// let printControl = L.control.print({
+//     provider: printProvider
+// });
 
-// Create a print control with the configured provider and add to the map
-let printControl = L.control.print({
-    provider: printProvider
-});
+// map.addControl(printControl);
 
-map.addControl(printControl);
+layui.use(['table', 'layer', 'form'], function() {
+    let layer = layui.layer;
+    L.easyButton('<img src="lib/leaflet/print/images/printer.png">', function(btn, map){
+        layer.open({
+            type: 1,
+            title: false,
+            content: $('#print'),
+            area: ['70%', '67%'],
+            anim: 0, //0-6的动画形式，-1不开启
+            closeBtn: 0,
+            shadeClose: true,
+            success: function(layero, index){
+
+            },
+            end: function () {
+            }
+        })
+    }).addTo(map);
+});
