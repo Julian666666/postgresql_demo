@@ -3,12 +3,20 @@
 <body style="color: #666666; font-size: small;">
 <div style="display: none;" id="print">
     <div class="layui-fluid">
-        <div class="layui-row" style="padding-top: 10px">
-            <form class="layui-form" lay-filter="alarm_failure_add">
+        <form class="layui-form">
+            <div class="layui-row" style="padding-top: 10px">
+                <div class="layui-col-md8" id='snapshot'></div>
 
-
-            </form>
-        </div>
+                <div class="layui-col-md4">
+                    <OBJECT ID='WebBrowser' NAME="WebBrowser" WIDTH=0 HEIGHT=0 CLASSID='CLSID:8856F961-340A-11D0-A96B-00C04FD705A2'></OBJECT>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="print" style="border-radius: 5px">打印</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
 

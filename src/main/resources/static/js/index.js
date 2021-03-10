@@ -268,18 +268,18 @@ map.on('click', function(e) {
 // var vectorTile = new L.vectorGrid.protobuf(pbfUrl, vectorTileOptions).addTo(map);
 
 // easyPrint
-var printer = L.easyPrint({
-    tileLayer: polygonLayer,
-    sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
-    filename: 'myMap',
-    exportOnly: true,
-    hideControlContainer: false
-}).addTo(map);
-
-function manualPrint () {
-    console.log(printer);
-    printer.printMap('CurrentSize', 'MyManualPrint');
-}
+// var printer = L.easyPrint({
+//     tileLayer: polygonLayer,
+//     sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+//     filename: 'myMap',
+//     exportOnly: true,
+//     hideControlContainer: false
+// }).addTo(map);
+//
+// function manualPrint () {
+//     console.log(printer);
+//     printer.printMap('CurrentSize', 'MyManualPrint');
+// }
 
 // print
 // let printProvider = L.print.provider({
@@ -299,12 +299,39 @@ function manualPrint () {
 // let printControl = L.control.print({
 //     provider: printProvider
 // });
-
 // map.addControl(printControl);
 
+// image
+var snapshot = document.getElementById('snapshot');
+
+function doImage(err, canvas) {
+    var img = document.createElement('img');
+    var dimensions = map.getSize();
+    img.width = dimensions.x;
+    img.height = dimensions.y;
+    img.src = canvas.toDataURL();
+    img.name = 'mapImg';
+    
+    var w = $(snapshot).width();//设置最大宽度,也可根据img的外部容器 而动态获得,比如：$("#demo").width();
+    var img_w = img.width;//图片宽度
+    var img_h = img.height;//图片高度
+    if (img_w > w) {//如果图片宽度超出指定最大宽度
+        var height = (w * img_h) / img_w; //高度等比缩放
+        $(img).css( {
+            "width" : w,"height" : height
+        });//设置缩放后的宽度和高度
+    }
+    $(img).css('border', '1px solid black');
+    $(img).css('padding', '30px');
+
+    snapshot.innerHTML = '';
+    snapshot.appendChild(img);
+}
+
 layui.use(['table', 'layer', 'form'], function() {
-    let layer = layui.layer;
+    let layer = layui.layer, form = layui.form;
     L.easyButton('<img src="lib/leaflet/print/images/printer.png">', function(btn, map){
+        leafletImage(map, doImage);
         layer.open({
             type: 1,
             title: false,
@@ -314,10 +341,20 @@ layui.use(['table', 'layer', 'form'], function() {
             closeBtn: 0,
             shadeClose: true,
             success: function(layero, index){
-
             },
             end: function () {
             }
-        })
+        });
+
     }).addTo(map);
+
+    form.on('submit(print)', function(data){
+        $(snapshot).jqprint({
+            debug: false,
+            importCSS: true,
+            printContainer: true
+        });
+        // IE打印
+        // document.getElementById('WebBrowser').ExecWB(6,2)
+    });
 });
