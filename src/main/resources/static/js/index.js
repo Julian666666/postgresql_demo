@@ -194,8 +194,11 @@ L.control.zoom({
     // zoomInTitle: '放大',
     // zoomOutTitle: '缩小'
 }).addTo(map);
-
-
+L.control.scale({
+    maxWidth: 100,
+    metric: true,
+    imperial: false
+}).addTo(map);
 // L.tileLayer(
 //     url +
 //     "vec_c/wmts?layer=vec&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=0b018552994f71a9467d24461a8f8238", {
@@ -302,7 +305,7 @@ map.on('click', function(e) {
 // map.addControl(printControl);
 
 // image
-var snapshot = document.getElementById('snapshot');
+var printImg = document.getElementById('printImg');
 
 function doImage(err, canvas) {
     var img = document.createElement('img');
@@ -312,20 +315,21 @@ function doImage(err, canvas) {
     img.src = canvas.toDataURL();
     img.name = 'mapImg';
     
-    var w = $(snapshot).width();//设置最大宽度,也可根据img的外部容器 而动态获得,比如：$("#demo").width();
+    var w = $(printImg).width();//设置最大宽度,也可根据img的外部容器 而动态获得,比如：$("#demo").width();
+    $('#snapshot').css('width', w);
     var img_w = img.width;//图片宽度
     var img_h = img.height;//图片高度
     if (img_w > w) {//如果图片宽度超出指定最大宽度
         var height = (w * img_h) / img_w; //高度等比缩放
-        $(img).css( {
+        $(img).css({
             "width" : w,"height" : height
         });//设置缩放后的宽度和高度
     }
-    $(img).css('border', '1px solid black');
-    $(img).css('padding', '30px');
+    // $(img).css('border', '1px solid black');
+    // $(img).css('padding', '30px');
 
-    snapshot.innerHTML = '';
-    snapshot.appendChild(img);
+    printImg.innerHTML = '';
+    printImg.appendChild(img);
 }
 
 layui.use(['table', 'layer', 'form'], function() {
@@ -336,25 +340,45 @@ layui.use(['table', 'layer', 'form'], function() {
             type: 1,
             title: false,
             content: $('#print'),
-            area: ['70%', '67%'],
+            area: ['80%', '66%'],
             anim: 0, //0-6的动画形式，-1不开启
             closeBtn: 0,
             shadeClose: true,
             success: function(layero, index){
+                var scale = document.getElementsByClassName('leaflet-control-scale-line')[0].innerHTML;
+                $('#scaleSpan').text('1:' + scale);
             },
             end: function () {
             }
         });
-
     }).addTo(map);
 
     form.on('submit(print)', function(data){
-        $(snapshot).jqprint({
-            debug: false,
-            importCSS: true,
-            printContainer: true
-        });
         // IE打印
         // document.getElementById('WebBrowser').ExecWB(6,2)
+
+        // jqprint
+        // $('#snapshot').jqprint({
+        //     debug: false,
+        //     importCSS: true,
+        //     printContainer: true
+        // });
+
+        $('#snapshot').print({
+            //Use Global styles
+            globalStyles : false,
+            //Add link with attrbute media=print
+            mediaPrint : false,
+            //Print in a hidden iframe
+            iframe : false,
+            //Don't print this
+            noPrintSelector : ".avoid-this",
+            //Add this at top
+            // prepend : "Hello World!!!<br/>",
+            //Add this on bottom
+            // append : "<br/>Buh Bye!",
+            //Log to console when printing is done via a deffered callback
+            deferred: $.Deferred().done(function() { console.log('Printing done', arguments); })
+        });
     });
 });
