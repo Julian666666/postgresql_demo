@@ -306,8 +306,8 @@ map.on('click', function(e) {
 
 // image
 // var snapshot = document.getElementById('snapshot');
-// let printImg = $('<img />');
-let printImg = $('#printImg');
+let printImg = $('<img />');
+// let printImg = $('#printImg');
 function doImage(err, canvas) {
     var img = document.createElement('img');
     var dimensions = map.getSize();
@@ -330,9 +330,11 @@ function doImage(err, canvas) {
 
     // printImg.innerHTML = '';
     // printImg.appendChild(img);
+
     // let snapshot = document.createElement('div');
     let snapshot = document.getElementById('snapshot');
-    $(snapshot).append('<span style="padding-top: 10px; font-size: 20px; color: black;">中国地图</span>');
+    $(snapshot).empty();
+    $(snapshot).append('<span style="padding-top: 10px; font-size: 25px; color: black;">中国地图</span>');
     let printDiv = $('<div style="border: 3px solid black; padding: 15px 15px; margin-top: 10px;"></div>');
     printDiv.append(img);
     $(snapshot).append(printDiv);
@@ -353,7 +355,7 @@ layui.use(['table', 'layer', 'form'], function() {
             type: 1,
             title: false,
             content: $('#print'),
-            area: ['80%', '66%'],
+            area: ['80%', '69%'],
             anim: 0, //0-6的动画形式，-1不开启
             closeBtn: 0,
             shadeClose: true,
