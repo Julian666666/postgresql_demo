@@ -305,8 +305,9 @@ map.on('click', function(e) {
 // map.addControl(printControl);
 
 // image
-var printImg = document.getElementById('printImg');
-
+// var snapshot = document.getElementById('snapshot');
+// let printImg = $('<img />');
+let printImg = $('#printImg');
 function doImage(err, canvas) {
     var img = document.createElement('img');
     var dimensions = map.getSize();
@@ -314,9 +315,9 @@ function doImage(err, canvas) {
     img.height = dimensions.y;
     img.src = canvas.toDataURL();
     img.name = 'mapImg';
-    
-    var w = $(printImg).width();//设置最大宽度,也可根据img的外部容器 而动态获得,比如：$("#demo").width();
-    $('#snapshot').css('width', w);
+
+    var w = 710;//printImg.width();//设置最大宽度,也可根据img的外部容器 而动态获得,比如：$("#demo").width();
+    // $('#snapshot').css('width', w);
     var img_w = img.width;//图片宽度
     var img_h = img.height;//图片高度
     if (img_w > w) {//如果图片宽度超出指定最大宽度
@@ -325,16 +326,28 @@ function doImage(err, canvas) {
             "width" : w,"height" : height
         });//设置缩放后的宽度和高度
     }
-    // $(img).css('border', '1px solid black');
-    // $(img).css('padding', '30px');
+    $(img).css('border', '2px solid black');
 
-    printImg.innerHTML = '';
-    printImg.appendChild(img);
+    // printImg.innerHTML = '';
+    // printImg.appendChild(img);
+    // let snapshot = document.createElement('div');
+    let snapshot = document.getElementById('snapshot');
+    $(snapshot).append('<span style="padding-top: 10px; font-size: 20px; color: black;">中国地图</span>');
+    let printDiv = $('<div style="border: 3px solid black; padding: 15px 15px; margin-top: 10px;"></div>');
+    printDiv.append(img);
+    $(snapshot).append(printDiv);
+    console.log(snapshot);
+
+    html2canvas(snapshot).then(function(canvas) {
+        // printImg.src= canvas.toDataURL();
+        printImg.attr('src', canvas.toDataURL());
+    });
 }
 
 layui.use(['table', 'layer', 'form'], function() {
     let layer = layui.layer, form = layui.form;
     L.easyButton('<img src="lib/leaflet/print/images/printer.png">', function(btn, map){
+
         leafletImage(map, doImage);
         layer.open({
             type: 1,
@@ -345,12 +358,13 @@ layui.use(['table', 'layer', 'form'], function() {
             closeBtn: 0,
             shadeClose: true,
             success: function(layero, index){
-                var scale = document.getElementsByClassName('leaflet-control-scale-line')[0].innerHTML;
-                $('#scaleSpan').text('1:' + scale);
+                // var scale = document.getElementsByClassName('leaflet-control-scale-line')[0].innerHTML;
+                // $('#scaleSpan').text('1:' + scale);
             },
             end: function () {
             }
         });
+
     }).addTo(map);
 
     form.on('submit(print)', function(data){
@@ -364,7 +378,8 @@ layui.use(['table', 'layer', 'form'], function() {
         //     printContainer: true
         // });
 
-        $('#snapshot').print({
+
+        $(printImg).print({
             //Use Global styles
             globalStyles : false,
             //Add link with attrbute media=print
@@ -374,7 +389,7 @@ layui.use(['table', 'layer', 'form'], function() {
             //Don't print this
             noPrintSelector : ".avoid-this",
             //Add this at top
-            // prepend : "Hello World!!!<br/>",
+            // prepend : "中国地图<br/>",
             //Add this on bottom
             // append : "<br/>Buh Bye!",
             //Log to console when printing is done via a deffered callback
