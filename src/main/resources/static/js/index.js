@@ -338,12 +338,12 @@ function doImage(err, canvas) {
     let printDiv = $('<div style="border: 3px solid black; padding: 15px 15px; margin-top: 10px;"></div>');
     printDiv.append(img);
     $(snapshot).append(printDiv);
-    console.log(snapshot);
 
     html2canvas(snapshot).then(function(canvas) {
         // printImg.src= canvas.toDataURL();
         printImg.attr('src', canvas.toDataURL());
     });
+
 }
 
 layui.use(['table', 'layer', 'form'], function() {
