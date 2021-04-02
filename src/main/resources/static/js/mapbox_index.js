@@ -33,10 +33,22 @@ let scale = new mapboxgl.ScaleControl({
 });
 map.addControl(scale);
 
+// import { MapboxExportControl, Size, PageOrientation, Format, DPI} from '../lib/mapbox-gl-export/lib/index';
+// // create control with default options
+// map.addControl(new MapboxExportControl(), 'top-right');
+// // create control with specified options
+// map.addControl(new MapboxExportControl({
+//     PageSize: Size.A3,
+//     PageOrientation: PageOrientation.Portrait,
+//     Format: Format.PNG,
+//     DPI: DPI[96],
+//     Crosshair: true
+// }), 'top-right');
+
 map.on('load', function loaded() {
     map.addSource('polygon', {
         'type': 'vector',
-        'tiles': ['http://localhost:8000/getTiles/polygon/{z}/{x}/{y}']
+        'tiles': ['http://localhost/getTiles/polygon/{z}/{x}/{y}']
     });
     map.addLayer({
         'id': 'polygon',
@@ -106,6 +118,9 @@ layui.use(['layer', 'form'], function () {
         printDiv.append(mapImg);
         $(snapshot).append(printDiv);
 
+        let scale = $('.mapboxgl-ctrl-scale').text();
+        $(snapshot).append('<span>1:' + scale + '</span>');
+
         layer.open({
             type: 1,
             title: false,
@@ -115,8 +130,6 @@ layui.use(['layer', 'form'], function () {
             closeBtn: 0,
             shadeClose: true,
             success: function(layero, index){
-                // var scale = document.getElementsByClassName('leaflet-control-scale-line')[0].innerHTML;
-                // $('#scaleSpan').text('1:' + scale);let printImg = $('<img>');
                 html2canvas(snapshot).then(function(canvas) {
                     // printImg.src= canvas.toDataURL();
                     printImg.attr('src', canvas.toDataURL());

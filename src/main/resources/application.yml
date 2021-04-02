@@ -1,7 +1,7 @@
 ## \u670D\u52A1\u914D\u7F6E
 server:
   # SpringBoot\u670D\u52A1\u7AEF\u53E3\u914D\u7F6E
-  port: 8000
+  port: 80
   # SpringBoot\u8BBE\u7F6E\u54CD\u5E94\u538B\u7F29gzip
   compression:
     enabled: true
