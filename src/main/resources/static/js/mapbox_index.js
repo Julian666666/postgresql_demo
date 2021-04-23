@@ -60,7 +60,7 @@ map.on('load', function loaded() {
         },
         "paint": {
             "fill-color": "#468838",
-            "fill-opacity": 0.8,
+            "fill-opacity": 0.5,
         }
     });
 });
@@ -134,7 +134,6 @@ layui.use(['layer', 'form'], function () {
                     // printImg.src= canvas.toDataURL();
                     printImg.attr('src', canvas.toDataURL());
                 });
-
             },
             end: function () {
 
@@ -167,7 +166,9 @@ layui.use(['layer', 'form'], function () {
             //Add this on bottom
             // append : "<br/>Buh Bye!",
             //Log to console when printing is done via a deffered callback
-            deferred: $.Deferred().done(function() { console.log('Printing done', arguments); })
+            deferred: $.Deferred().done(function() {
+                console.log('Printing done', arguments);
+            })
         });
     });
 });
