@@ -144,8 +144,8 @@ layui.use(['layer', 'form'], function () {
     form.on('submit(print)', function(data){
         // IE打印
         // document.getElementById('WebBrowser').ExecWB(6,2)
-
-        // jqprint
+        //
+        // // jqprint
         // $('#snapshot').jqprint({
         //     debug: false,
         //     importCSS: true,
