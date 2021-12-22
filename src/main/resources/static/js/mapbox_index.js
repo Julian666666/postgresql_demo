@@ -36,7 +36,7 @@ map.addControl(scale);
 map.on('load', function loaded() {
     map.addSource('polygon', {
         'type': 'vector',
-        'tiles': ['http://localhost:8081/getTiles/polygon/{z}/{x}/{y}']
+        'tiles': ['http://8.141.156.76:8081/getTiles/polygon/{z}/{x}/{y}']
     });
     map.addLayer({
         'id': 'polygon',
