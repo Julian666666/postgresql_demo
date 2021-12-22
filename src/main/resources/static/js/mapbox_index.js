@@ -33,18 +33,6 @@ let scale = new mapboxgl.ScaleControl({
 });
 map.addControl(scale);
 
-// import { MapboxExportControl, Size, PageOrientation, Format, DPI} from '../lib/mapbox-gl-export/lib/index';
-// // create control with default options
-// map.addControl(new MapboxExportControl(), 'top-right');
-// // create control with specified options
-// map.addControl(new MapboxExportControl({
-//     PageSize: Size.A3,
-//     PageOrientation: PageOrientation.Portrait,
-//     Format: Format.PNG,
-//     DPI: DPI[96],
-//     Crosshair: true
-// }), 'top-right');
-
 map.on('load', function loaded() {
     map.addSource('polygon', {
         'type': 'vector',
@@ -88,6 +76,32 @@ layui.use(['layer', 'form'], function () {
     //     });
     // });
 
+    // $('#pri').on('click', function (i, v) {
+    //     const data = map.getCanvas().toDataURL('image/png');
+    //     let ace = $('#printImg');
+    //     ace.attr('src', data);
+    //     console.log(ace);
+    //     layer.open({
+    //         type: 1,
+    //         title: false,
+    //         content: $('#print'),
+    //         area: ['80%', '69%'],
+    //         anim: 0, //0-6的动画形式，-1不开启
+    //         closeBtn: 0,
+    //         shadeClose: true,
+    //         success: function(layero, index){
+    //             // html2canvas(snapshot).then(function(canvas) {
+    //             //     // printImg.src= canvas.toDataURL();
+    //             //     printImg.attr('src', canvas.toDataURL());
+    //             // });
+    //         },
+    //         end: function () {
+    //
+    //         }
+    //     });
+    // });
+
+
     const mapPrint  = new MapPrintTool({
         enableImg: false, //是否出图
         fileName: 'mapDemo.png' // 文件名
@@ -98,9 +112,11 @@ layui.use(['layer', 'form'], function () {
     let printImg = $('<img>');
     // 监听打印 获取数据
     mapPrint.on('success',function (res) {
-        const data = map.getCanvas().toDataURL('image/png');
+        // const data = map.getCanvas().toDataURL('image/png')  ;
+        // console.log(map.getCanvas());
         let mapImg = $('<img>');
-        mapImg.attr('src', data);
+        mapImg.attr('src', res.data);
+        console.log(mapImg);
         var w = 708;//printImg.width();//设置最大宽度,也可根据img的外部容器 而动态获得,比如：$("#demo").width();
         var img_w = $('#map').width();//图片宽度
         var img_h = $('#map').height();//图片高度

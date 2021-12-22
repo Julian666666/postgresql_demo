@@ -1,7 +1,7 @@
 ## \u670D\u52A1\u914D\u7F6E
 server:
   # SpringBoot\u670D\u52A1\u7AEF\u53E3\u914D\u7F6E
-  port: 80
+  port: 8081
   # SpringBoot\u8BBE\u7F6E\u54CD\u5E94\u538B\u7F29gzip
   compression:
     enabled: true
@@ -34,9 +34,9 @@ spring:
       # 数据库访问配置, 使用druid数据源
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://172.17.30.255:5432/land_house_dev
+      url: jdbc:postgresql://172.17.30.255:4432/land_house_dev
       username: postgres
-      password: 123456
+      password: devcenter123456
       # 连接池配置
       initial-size: 5
       min-idle: 5

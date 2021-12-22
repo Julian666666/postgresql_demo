@@ -16,6 +16,27 @@
                 <div class="layui-col-md3">
                     <OBJECT ID='WebBrowser' NAME="WebBrowser" WIDTH=0 HEIGHT=0 CLASSID='CLSID:8856F961-340A-11D0-A96B-00C04FD705A2'></OBJECT>
                     <div class="layui-form-item">
+                        <label class="layui-form-label">长</label>
+                        <div class="layui-input-inline">
+                            <input type="text"
+                                   name="name"
+                                   required
+                                   lay-verify="required"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <label class="layui-form-label">宽</label>
+                        <div class="layui-input-inline">
+                            <input type="text"
+                                   name="width"
+                                   required
+                                   lay-verify="required"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
                         <div class="layui-input-block">
                             <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="print" style="border-radius: 5px">打印</button>
                         </div>
